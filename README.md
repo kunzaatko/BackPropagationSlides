@@ -1,4 +1,19 @@
-# Compilation
+# Deep Learning Introduction
+
+This repository contains a LaTeX presentation on the fundamentals of neural networks, including notation, backpropagation algorithm, stochastic gradient descent, and practical examples.
+
+## Examples Covered
+- Binary classifier on 2D feature space
+- Convolutional neural network on MNIST dataset
+
+## Figures
+- `src/figs/math_activations.pdf`: Mathematical activation functions
+- `src/figs/gate_activations.pdf`: Gate activation functions
+- `src/figs/ReLU_variants.pdf`: Variants of ReLU activation
+- `src/figs/2d_classification_data.pdf`: 2D classification dataset
+- `src/video/training_animation.mp4`: Training animation video (thumbnail: `src/figs/thumb_training_animation.png`)
+
+## Compilation
 
 For $\LaTeX$ compilation, it is necessary to generate the Julia _lexer_ for `pymentize` for the `minted` environment.
 For this I am using [`sisl/pygments-julia`](https://github.com/sisl/pygments-julia) within a virtual environment. Using
