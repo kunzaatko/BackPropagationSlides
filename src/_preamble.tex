@@ -1,0 +1,72 @@
+\documentclass[x11names, 11pt]{beamer}
+
+\title{Deep Learning: Introduction}
+\author{Martin Kunz}
+
+\usepackage{xcolor-material}
+
+\usepackage{amsmath, amssymb, amsthm, mathtools, unicode-math, derivative}
+
+\usepackage[english]{babel} % Load characters and hyphenation
+\usepackage[english=british]{csquotes}	% English quotes
+
+\usepackage{import}
+\usepackage{graphicx}
+\usepackage[font=scriptsize,justification=centering]{caption}
+
+\newcommand{\videocaption}[1]{
+\renewcommand{\figurename}{Video}
+\caption{#1}
+\renewcommand{\figurename}{Figure}
+}
+\graphicspath{{figs/}} % Paths where images are looked for
+
+\setmonofont{JuliaMono}
+\usepackage{minted}
+\usepackage{mathtools}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+
+\usepackage{hyperref, tikz}
+\usepackage{layout}
+
+%% Notes on the right side of the page
+
+\usepackage{pgfpages}
+
+% \setbeameroption{show notes} % Show notes
+% \setbeameroption{hide notes} % Only slides
+% \setbeameroption{show only notes} % Only notes
+% \setbeameroption{show notes on second screen=right} % Both
+% \setbeameroption{show notes on second screen}
+
+% Give a slight yellow tint to the notes page
+\setbeamertemplate{note page}{\pagecolor{yellow!5}\insertnote}
+% NOTE: For PyMPress to work with dual screen setup <28-03-25> 
+% \addtobeamertemplate{note page}{}{\thispdfpagelabel{notes:\insertframenumber}}
+
+\usepackage[
+backend=biber,
+style=authoryear,
+sorting=ynt
+]{biblatex}
+\addbibresource{resources.bib}
+
+\usefonttheme[onlymath]{serif}
+
+\usetheme{Berlin}
+\usecolortheme{beaver}
+% \setbeamertemplate{navigation symbols}{}
+
+\makeatletter
+\beamer@theme@subsectionfalse%
+\makeatother
+		
+% \makeatletter
+% \setbeamertemplate{footline} {}
+% \makeatother
+
+\include{_acronyms.tex}
+
+\begin{document}

@@ -1,0 +1,8 @@
+[doc]
+name = "Deep Learning Introduction"
+bundle = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar"
+
+[[output]]
+name = "DL_intro_slides"
+type = "pdf"
+shell_escape_cwd = "./shell-escape"

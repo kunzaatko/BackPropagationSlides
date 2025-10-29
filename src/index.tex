@@ -1,0 +1,250 @@
+\frame{\titlepage}
+
+\begin{frame}{Contents of the talk}
+    \begin{enumerate}
+        \item Introduction to \acp{NN} and used notation\\
+            \textcolor{gray}{
+                \scriptsize{
+                    terminology, notation
+                    (\(b^{[l]}_i,\,a^{[l]}_i,\,W^{[l]}_{ij},\,z^{[l]}_i,\,y(x^{\{i\}})\ldots\)) }
+        }
+        \item \textbf{Example:} \ac{NN} binary classifier on a 2D feature space \\
+            \textcolor{gray}{
+                \scriptsize{comparison with non-linear least squares, influence of breadth vs. depth}
+            }
+        \item Back-propagation algorithm \\
+            \textcolor{gray}{
+                \scriptsize{
+                    derivation of sensitivity \(\delta^{(l)}_{ij}\), analysis of a single learning step,
+                modifications for more complicated models
+                }
+            }
+        \item \textbf{Example:} \ac{NN} binary classifier training step visualization
+        \item Stochastic gradient descent \\
+            \textcolor{gray}{
+                \scriptsize{terminology, motivation, modifications}
+            }
+        \item \textbf{Example:} \acs{CNN} on the \acs{MNIST} dataset \\
+            \textcolor{gray}{
+                \scriptsize{
+                    dataset introduction, model description, training results, back-propagation terms interpretation in
+                    the model and visualization
+                }
+            }
+ \end{enumerate} 
+\end{frame}
+
+\begin{frame}{Reference paper}
+    \textbf{SIAM paper:} \\
+    \begin{itemize}
+       \item\scriptsize{\fullcite{higham2019}}
+    \end{itemize}
+    \textbf{Recommended resources:} \\
+    \begin{itemize}
+        \item \scriptsize{\fullcite{prince2023}}
+        \item \scriptsize{\fullcite{goodfellow2016}}
+    \end{itemize}
+
+\end{frame}
+
+\section{\Aclp{NN} Overview}%
+\label{sec:neural-networks-overview}
+
+\begin{frame}{Terminology}
+    \Acf{NN}, \ac{NN} layer, hidden layer, deep vs. shallow \ac{NN}, \acf{CNN}, dense (fully-connected) layer, feed-forward NN, training a \ac{NN},
+    forward-pass, \acl{BP}, activation function, cost function,~\ldots
+\end{frame}
+
+\begin{frame}{Notation}
+  \begin{itemize}
+      \item<1-> \(W^{[l]}\) -- weight matrix on layer \(l\)
+      \item<2-> \(b^{[l]}\) -- bias vector on layer \(l\)
+      \item<3-> \(z^{[l]}_i \only<4>{\textcolor{orange}{= W^{[l]} a^{[l-1]} + b^{[l]}}}\) -- weighted input of the \(i\textsuperscript{th}\) neuron on layer \(l\)
+      \item<5-> \(a^{[l]}_i\only<6>{\textcolor{orange}{= a(z^{[l]})}}\) -- output of the \(i\textsuperscript{th}\)
+          neuron on layer \(l\) \only<6>{\textcolor{orange}{(\(a\) activation function)}}
+      \item<7-> \(y(x^{\{i\}})\) -- \(i\textsuperscript{th}\) observed data (input \(x^{\{i\}}\), and corresponding output \(y(x^{\{i\}})\))
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=\textwidth]{math_activations.pdf}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=\textwidth]{gate_activations.pdf}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=\textwidth]{ReLU_variants.pdf}
+\end{frame}
+
+\section{\textbf{Example:} binary classifier}%
+\label{sec:binary-classifier}
+
+\begin{frame}{\textbf{Example:} 2D feature binary classifier}
+    \centering
+    \includegraphics[width=\textwidth]{2d_classification_data.pdf}
+\end{frame}
+
+\begin{frame}
+    \centering
+  \begin{tikzpicture}[
+    neuron/.style={circle, draw, minimum size=0.6cm},
+    input neuron/.style={neuron, fill=cyan!30},
+    hidden neuron/.style={neuron, fill=gray!20},
+    output neuron/.style={neuron, fill=gray!20},
+    arrow/.style={-{Stealth[length=2mm]}, thick},
+    layer/.style={align=center, font=\bfseries}
+]
+
+% Layers
+\node[layer] (input label) {Input\\Layer};
+\node[layer, right=1.1cm of input label] (hidden1 label) {Hidden\\Layer 1};
+\node[layer, right=1.1cm of hidden1 label] (hidden2 label) {Hidden\\Layer 2};
+\node[layer, right=1.1cm of hidden2 label] (output label) {Output\\Layer};
+
+% Input Layer (2 neurons)
+\node[input neuron, below=0.75cm of input label] (I-1) {};
+\node[input neuron, below=2cm of I-1] (I-2) {};
+
+% Hidden Layer 1 (2 neurons)
+\node[hidden neuron, below=0.75cm of hidden1 label] (H1-1) {};
+\node[hidden neuron, below=2cm of H1-1] (H1-2) {};
+
+% Hidden Layer 2 (3 neurons)
+\node[hidden neuron, below=0.5cm of hidden2 label] (H2-1) {};
+\node[hidden neuron, below=1cm of H2-1] (H2-2) {};
+\node[hidden neuron, below=1cm of H2-2] (H2-3) {};
+
+% Output Layer (2 neurons)
+\node[output neuron, below=0.75cm of output label] (O-1) {};
+\node[output neuron, below=2cm of O-1] (O-2) {};
+
+% Add input annotations
+\node[left=0.2cm of I-1] {$x_1$};
+\node[left=0.2cm of I-2] {$x_2$};
+
+% Add output annotations
+\node[right=0.2cm of O-1] {$(a^{[4]}(x))_1$};
+\node[right=0.2cm of O-2] {$(a^{[4]}(x))_2$};
+
+% Add weight and bias annotation to one neuron in the hidden layer
+\node[above left=0.02cm and 0.02cm of H1-1] {$W^{[2]}_{1\cdot}$};
+\node[above right=0.02cm of H1-1] {$b^{[2]}_1$};
+
+% Connect input to first hidden layer
+\foreach \i in {1,2}
+    \foreach \j in {1,2}
+        \draw[arrow] (I-\i) -- (H1-\j);
+
+% Connect first hidden layer to second hidden layer
+\foreach \i in {1,2}
+    \foreach \j in {1,2,3}
+        \draw[arrow] (H1-\i) -- (H2-\j);
+
+% Connect second hidden layer to output
+\foreach \i in {1,2,3}
+    \foreach \j in {1,2}
+        \draw[arrow] (H2-\i) -- (O-\j);
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item Fully connected \(2\)--\(3\)--\(2\) \ac{NN} Forward Pass
+           \[F(x) = \sigma\!\left( W^{[4]} \;\sigma\!\left(W^{[3]}\; \sigma\!\left(W^{[2]} \; x +b^{[2]}\right) + b^{[3]} \right)
+           + b^{[4]}\right)\]
+           \pause\item \(L^{2}\) Loss (for observations \(\{y(x^{\{i\}})\mid i \in \hat{N}\}\))
+            \[
+                \ell_2(W^{[2]}, W^{[3]}, W^{[4]}, b^{[2]}, b^{[3]}, b^{[4]}) = \frac{1}{2N}\sum_{i
+                = 1}^{N} \|y(x^{\{i\}}) - F(x^{\{i\}})\|_2^2.
+            \] 
+    \end{itemize}
+\end{frame}
+
+% NOTE: What happens when we try to optimize the loss by some standard optimization algorithm? <21-03-25> 
+% \begin{frame}
+%     \centering
+%     \includegraphics[width=\textwidth]{nelder_mead_fits.pdf}
+% \end{frame}
+
+\section{Back Propagation}%
+\label{sec:back-propagation}
+
+
+\begin{frame}
+    \begin{itemize}
+        \item Sensitivity \(\delta^{[l]}_j = \pdv{C}{z_j^{[l]}}\)
+            \[
+                \delta^{[L]} = a'(z^{[L]}) \cdot (a^{[L]} - y) 
+            \] 
+            \[
+                \delta^{[l]} = a'(z^{[l]}) \cdot (W^{[l+1]})^T \delta^{[l+1]}
+            \] 
+        \pause\item Gradient \(\nabla_W C\) \& \(\nabla_b C\)
+            \[
+                \pdv{C}{b^{[l]_j}}  = \delta^{[l]}_j
+            \] 
+            \[
+                \pdv{C}{W^{[l]}_{ij}} = \delta^{[l]}_i \cdot a^{[l-1]}_j
+            \] 
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \begin{minted}[breaklines,escapeinside=||,mathescape=true, numbersep=3pt, gobble=2, frame=single,
+        fontsize=\fontsize{6pt}{7pt}\selectfont, framesep=2mm]{julia1}
+function train_NN_3_2_3(x, y; η=0.05, iterations=Int(1e6))
+    global W2, b2, W3, b3, W4, b4 # assuming that the parameters are initialized
+
+    for _ in Base.OneTo(iterations)
+        ind = rand(Base.OneTo(size(x, 2))) # choose observation for gradient computation
+        x_train = x[:, ind]
+        y_train = y[:, ind]
+
+        # Forward pass
+        a2 = σ.(W2 * x_train .+ b2)
+        a3 = σ.(W3 * a2 .+ b3)
+        a4 = σ.(W4 * a3 .+ b4) # a4
+
+        # Backward pass
+        δ4 = @. a4 * (1 - a4) * (a4 - y_train)  # using σ'(x) = σ(x)(1 - σ(x))
+        δ3 = a3 .* (1 .- a3) .* (W4' * δ4)
+        δ2 = a2 .* (1 .- a2) .* (W3' * δ3)
+
+        # Step gradient
+        W2 .-= η * δ2 * x_train'
+        W3 .-= η * δ3 * a2'
+        W4 .-= η * δ4 * a3'
+        b2 .-= η * δ2
+        b3 .-= η * δ3
+        b4 .-= η * δ4
+    end
+
+    return W2,b2,W3,b3,W4,b4
+end
+    \end{minted} 
+\end{frame}
+
+% \begin{frame}
+%     \centering
+%     \includegraphics[width=\textwidth]{classification_loss.pdf}
+% \end{frame}
+
+\begin{frame}
+    \centering
+    \begin{figure}
+        \videocaption{Loss and decision region during the training of a 2D classification task using a 2-3-2 \ac{NN} on the
+        classification task. {\tiny [\texttt{src/video/training\_animation.mp4}]}}
+        \centering
+        \includegraphics[width=0.7\textwidth]{thumb_training_animation}
+    \end{figure}
+\end{frame} 
+
+% TODO: Changes in the model output (piecewise linear approximation) in the epochs as an animation <16-03-25> 
+% TODO: MNIST convolutional kernels evolution during the training <16-03-25> 

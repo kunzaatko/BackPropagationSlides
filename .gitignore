@@ -1,0 +1,8 @@
+build/DL_intro_slides
+shell-escape
+src/figs/nelder_mead_fits.pdf
+pygments-julia
+dist
+pygments_julia.egg-info
+Pipfile
+Pipfile.lock
