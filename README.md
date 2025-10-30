@@ -7,16 +7,23 @@ This repository contains a LaTeX presentation on the fundamentals of neural netw
 - Convolutional neural network on MNIST dataset
 
 ## Figures
-- Mathematical activation functions
-![`src/figs/math_activations.pdf`](src/figs/math_activations.pdf)
-- Gate activation functions
-![`src/figs/gate_activations.pdf`](src/figs/gate_activations.pdf)
-- Variants of ReLU activation
-![`src/figs/ReLU_variants.pdf`](src/figs/ReLU_variants.pdf)
+[<img width="230" height="149" alt="math_activations" src="https://github.com/user-attachments/assets/8c61d64a-5b90-4590-b6d2-3fea7d724e17" />
+](src/figs/math_activations.pdf)
+[<img width="230" height="149" alt="gate_activations" src="https://github.com/user-attachments/assets/f5ccb534-e03c-494a-a5fd-b1f64bd5e5d3" />
+](src/figs/gate_activations.pdf)
+[<img width="230" height="149" alt="ReLU_variants" src="https://github.com/user-attachments/assets/d5df8419-ad2f-4503-900f-ff6cac4bce8c" />
+](src/figs/ReLU_variants.pdf)
+
 - 2D classification dataset
-![`src/figs/2d_classification_data.pdf`](src/figs/2d_classification_data.pdf)
-- Training animation video
-![`src/video/training_animation.mp4`](src/video/training_animation.mp4)
+
+[<img width="230" height="149" alt="2d_classification_data" src="https://github.com/user-attachments/assets/cced890a-003d-4cdc-bd63-8f1d7c5f3a6f" />
+](src/figs/2d_classification_data.pdf)
+
+- [Training animation video](src/video/training_animation.mp4)
+
+https://github.com/user-attachments/assets/32734f01-1f5d-4602-8cce-7757a7198edf
+
+
 
 ## Compilation
 
