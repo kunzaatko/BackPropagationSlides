@@ -7,11 +7,16 @@ This repository contains a LaTeX presentation on the fundamentals of neural netw
 - Convolutional neural network on MNIST dataset
 
 ## Figures
-- `src/figs/math_activations.pdf`: Mathematical activation functions
-- `src/figs/gate_activations.pdf`: Gate activation functions
-- `src/figs/ReLU_variants.pdf`: Variants of ReLU activation
-- `src/figs/2d_classification_data.pdf`: 2D classification dataset
-- `src/video/training_animation.mp4`: Training animation video (thumbnail: `src/figs/thumb_training_animation.png`)
+- Mathematical activation functions
+![`src/figs/math_activations.pdf`](src/figs/math_activations.pdf)
+- Gate activation functions
+![`src/figs/gate_activations.pdf`](src/figs/gate_activations.pdf)
+- Variants of ReLU activation
+![`src/figs/ReLU_variants.pdf`](src/figs/ReLU_variants.pdf)
+- 2D classification dataset
+![`src/figs/2d_classification_data.pdf`](src/figs/2d_classification_data.pdf)
+- Training animation video
+![`src/video/training_animation.mp4`](src/video/training_animation.mp4)
 
 ## Compilation
 
