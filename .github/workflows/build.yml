@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      UV_CACHE_DIR: /tmp/.uv-cache
 
     steps:
       - name: Checkout
