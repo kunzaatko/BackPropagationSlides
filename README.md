@@ -2,6 +2,8 @@
 
 This repository contains a LaTeX presentation on the fundamentals of neural networks, including notation, backpropagation algorithm, stochastic gradient descent, and practical examples.
 
+The PDF with the latest version of the slides can be found [here](https://github.com/kunzaatko/BackPropagationSlides/releases/latest/download/DL_intro_slides.pdf).
+
 ## Examples Covered
 - Binary classifier on 2D feature space
 - Convolutional neural network on MNIST dataset
